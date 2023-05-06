@@ -40,12 +40,18 @@
       <!-- 排序 -->
       <div class="sort-item">
         <div class="sort-item-container" @click="chooseType('sort')">排序</div>
+				<transition name="showlist">
+					<div v-show="sortBy=='sort'" class="category_container"></div>
+				</transition>
       </div>
       <!-- 筛选 -->
       <div class="sort-item">
         <div class="sort-item-container" @click="chooseType('activity')">
           筛选
         </div>
+					<transition name="showlist">
+					<div v-show="sortBy=='activity'" class="category_container"></div>
+				</transition>
       </div>
     </div>
     <ShopList :shopList="shopList" class="wode"></ShopList>
@@ -105,7 +111,7 @@ export default {
 			
     },
     chooseType(type) {
-      if (this.sortBy) {
+      if (!type) {
         this.sortBy = "";
       } else {
         this.sortBy = type;
@@ -169,11 +175,13 @@ export default {
       padding: 0.3rem 0;
       border-right: 0.025rem solid #e4e4e4;
       .category_container {
+				min-height: 100px;
         border-top: 0.025rem solid #e4e4e4;
         z-index: 2;
         display: flex;
         position: fixed;
         top: 3.3rem;
+				left: 0;
         width: 100vw;
         background: #fff;
         .category_left {

@@ -34,14 +34,19 @@
         </van-grid>
       </div>
       <div class="section">
-        <van-index-bar :sticky-offset-top="100">
-          <div v-for="(item, value) in sortgroupcity" :key="value">
+        <van-index-bar :sticky-offset-top="50">
+          <div
+            v-for="(item, value) in sortgroupcity"
+            class="item-index"
+            :key="value"
+          >
             <div class="biaotou">
               <van-index-anchor :index="value" />
               <span>{{ value == "A" ? "(按照字母排序)" : "" }}</span>
             </div>
             <van-grid>
               <van-grid-item
+                class="esllipsis"
                 v-for="item1 in item"
                 :text="item1.name"
                 :key="item1.area_code"
@@ -137,29 +142,38 @@ export default {
         }
       }
     }
+		
     .hot {
       box-shadow: inset 2px 0 3px rgba(0, 0, 0, 0.3);
       padding-top: 3px;
       background: #fff;
-			.van-grid{
-				
-				.van-grid-item{
-					color: #3190e8;
-					.van-grid-item__text{
-						color: #3190e8 !important;
-					}
-				}
-			}
+      .van-grid {
+        color: #3190e8;
+      }
     }
     .section {
-			background: #fff;
-      .biaotou {
-        display: flex;
-        line-height: 1.45rem;
-        span {
-          font-size: 0.475rem;
-          color: #999;
+      .item-index {
+        margin-top: 20px;
+        border-top: 2px solid #e4e4e4;
+        border-bottom: 2px solid #e4e4e4;
+        background: #fff;
+				
+        .biaotou {
+          display: flex;
+          border-bottom: 1px solid #e4e4e4;
+          line-height: 1.45rem;
+					
+          span {
+            font-size: 0.475rem;
+            color: #999;
+          }
         }
+				.van-grid{
+					.van-grid-item__text{
+						color: #3190e8 !important;
+						height: 1000px !important;
+					}
+				}
       }
     }
   }
@@ -168,5 +182,4 @@ export default {
 .vant-grid {
   font-size: 60px;
 }
-
 </style>
