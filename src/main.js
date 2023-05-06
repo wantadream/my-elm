@@ -2,11 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { Icon } from "vant";
 
 Vue.config.productionTip = false
+Vue.use(Icon)
 
 new Vue({
   router,
-  store,
+	store,
+	Icon,
   render: h => h(App)
 }).$mount('#app')
