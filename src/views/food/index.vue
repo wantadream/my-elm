@@ -40,18 +40,27 @@
       <!-- 排序 -->
       <div class="sort-item">
         <div class="sort-item-container" @click="chooseType('sort')">排序</div>
-				<transition name="showlist">
-					<div v-show="sortBy=='sort'" class="category_container"></div>
-				</transition>
+        <transition name="showlist">
+          <div v-show="sortBy == 'sort'" class="category_container">
+            <ul class="sort">
+              <li>智能排序</li>
+              <li>距离最近</li>
+              <li>销量最高</li>
+              <li>起送价最低</li>
+              <li>配送速度最快</li>
+              <li>评分最高</li>
+            </ul>
+          </div>
+        </transition>
       </div>
       <!-- 筛选 -->
       <div class="sort-item">
         <div class="sort-item-container" @click="chooseType('activity')">
           筛选
         </div>
-					<transition name="showlist">
-					<div v-show="sortBy=='activity'" class="category_container"></div>
-				</transition>
+        <transition name="showlist">
+          <div v-show="sortBy == 'activity'" class="category_container"></div>
+        </transition>
       </div>
     </div>
     <ShopList :shopList="shopList" class="wode"></ShopList>
@@ -77,9 +86,7 @@ export default {
   created() {
     this.initData();
   },
-	beforeMount(){
-		
-	},
+  beforeMount() {},
   computed: {
     ...mapState(["latitude", "longitude"]),
     fdTitle() {
@@ -89,32 +96,31 @@ export default {
   methods: {
     ...mapMutations(["RECORD_ADDRESS"]),
     async initData() {
-			
       this.geohash = this.$route.query.geohash;
       this.headTitle = this.$route.query.title;
-    let res=await request("v2/pois/" + this.geohash)
-			this.RECORD_ADDRESS(res);
+      let res = await request("v2/pois/" + this.geohash);
+      this.RECORD_ADDRESS(res);
       request("/shopping/v2/restaurant/category", "get", {
         latitude: this.latitude,
         longitude: this.longitude
       }).then(res => {
-				
         this.category = res;
       });
-		
+
       this.shopList = await request(`/shopping/restaurants`, "get", {
         latitude: this.latitude,
-        longitude: this.longitude,
-        
+        longitude: this.longitude
       });
-			
-			
     },
     chooseType(type) {
       if (!type) {
         this.sortBy = "";
       } else {
-        this.sortBy = type;
+        if (this.sortBy == type) {
+          this.sortBy = "";
+        } else {
+          this.sortBy = type;
+        }
       }
     },
     selectCategoryName(id, index) {
@@ -174,16 +180,33 @@ export default {
       font-size: 0.55rem;
       padding: 0.3rem 0;
       border-right: 0.025rem solid #e4e4e4;
+			.sort-item-container{
+				font-size: .55rem;
+
+			}
       .category_container {
-				min-height: 100px;
+        min-height: 100px;
         border-top: 0.025rem solid #e4e4e4;
         z-index: 2;
         display: flex;
         position: fixed;
-        top: 3.3rem;
-				left: 0;
+        top: 3.1rem;
+        left: 0;
         width: 100vw;
         background: #fff;
+        .sort {
+					width: 100%;
+          li {
+            padding: 10px 0;
+						line-height: 1rem;
+            font-size: 0.55rem;
+						width: 100%;
+            color: #666;
+						text-align: left;
+						text-indent: .25rem;
+						border-bottom: 0.025rem solid #e4e4e4;
+          }
+        }
         .category_left {
           width: 50%;
           background: #f1f1f1;
@@ -205,8 +228,8 @@ export default {
       }
     }
   }
-	.wode{
-		padding-top: 3.3rem;
-	}
+  .wode {
+    padding-top: 3.1rem;
+  }
 }
 </style>

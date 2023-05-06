@@ -145,6 +145,7 @@ export default {
 }
 .search {
   padding-top: 70px;
+	
   .van-cell-group {
     .van-field {
       border: 1px solid #e4e4e4;
@@ -153,6 +154,7 @@ export default {
     }
   }
   .div {
+		background: #fff;
     padding: 10px;
     border-top: 1px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
@@ -164,7 +166,7 @@ export default {
 }
 .history {
   border-top: 1px solid #e4e4e4;
-
+background: #fff;
   .item {
     padding: 15px;
     border-bottom: 1px solid #e4e4e4;

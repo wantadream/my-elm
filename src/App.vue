@@ -6,20 +6,14 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
 }
 html {
-  font-size: 25.875px;
+  font-size: 25.875px !important;
 }
-body{
-	background: #f5f5f5;
-}
-.ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+
+
 </style>

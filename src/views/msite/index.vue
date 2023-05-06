@@ -182,6 +182,7 @@ export default {
 
 <style lang="scss" scoped>
 .msite {
+	font-size: 12px;
   .f5 {
     margin-top: 50px;
   }

@@ -1,0 +1,15 @@
+html {
+	font-size: 25.875px !important;
+}
+
+body {
+	background: #f5f5f5;
+}
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+div{
+	font-size: 12px;
+}

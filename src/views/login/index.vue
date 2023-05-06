@@ -1,7 +1,7 @@
 <template>
   <div class="search">
-    <headerTop :title="'密码登录'">
-      <template v-slot:left>
+    <headerTop :title="'密码登录'" >
+      <template v-slot:left >
         <p class=".left"><</p>
       </template>
     </headerTop>
