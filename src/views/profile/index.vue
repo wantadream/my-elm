@@ -1,3 +1,7 @@
+<style>
+
+</style>
+
 <template>
 <div class="search" >
 	<headerTop :title="'我的'">
@@ -5,6 +9,7 @@
         <p class=".left"><</p>
       </template>
 	</headerTop>
+	<tabbar></tabbar>
 </div>
 	
 </template>
@@ -15,6 +20,3 @@ export default {
 }
 </script>
 
-<style>
-
-</style>

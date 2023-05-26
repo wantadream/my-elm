@@ -1,21 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import mutations from "./mutation";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 const RECORD_ADDRESS = "RECORD_ADDRESS";
 export default new Vuex.Store({
   state: {
     latitude: "",
     longitude: "",
+    geohash: "",
   },
   getters: {},
-  mutations: {
-    [RECORD_ADDRESS](state,  {latitude, longitude} ) {
-      state.latitude = latitude;
-			state.longitude = longitude;
-			
-    },
-  },
+  mutations,
   actions: {},
   modules: {},
 });

@@ -1,20 +1,18 @@
+
+<style>
+</style>
+
 <template>
-<div class="search" >
-	<headerTop :title="'搜索'">
-<template v-slot:left>
+  <div class="search">
+    <headerTop :title="'搜索'">
+      <template v-slot:left>
         <p class=".left"><</p>
       </template>
-	</headerTop>
-</div>
-	
+    </headerTop>
+    <tabbar></tabbar>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
-
-<style>
-
-</style>

@@ -9,48 +9,66 @@ import Order from "../views/order";
 import Profile from "../views/profile";
 import Login from "../views/login";
 import Forget from "../views/forget";
-Vue.use(VueRouter)
+import Shop from "../views/shop";
+Vue.use(VueRouter);
 
 const routes = [
   {
+    name: "/",
     path: "/",
     redirect: "/home",
   },
   {
     path: "/home",
     component: Home,
+    name: "homename",
   },
   {
+    name: "cityname",
     path: "/city/:cityid",
     component: City,
+    props: true,
   },
   {
+    name: "msitename",
     path: "/msite",
     component: Msite,
   },
   {
+    name: "foodname",
     path: "/food",
     component: Food,
+    props: (route) => ({ query: route.query, title: route.query.title }),
   },
   {
+    name: "searchname",
     path: "/search",
     component: Search,
   },
   {
+    name: "ordername",
     path: "/order",
     component: Order,
   },
   {
+    name: "profilename",
     path: "/profile",
     component: Profile,
   },
   {
+    name: "loginname",
     path: "/login",
     component: Login,
   },
   {
+    name: "forgetname",
     path: "/forget",
     component: Forget,
+  },
+  {
+    name: "shop",
+    path: "/shop",
+    component: Shop,
   },
   {
     path: "/about",
@@ -64,7 +82,20 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
+router.beforeResolve((to, from, next) => {
+  // to and from are both route objects. must call `next`.
 
+  next();
+});
+router.beforeEach((to, from, next) => {
+  // to and from are both route objects. must call `next`.
+
+  next();
+});
+
+router.afterEach((to, from) => {
+  // to and from are both route objects.
+});
 export default router

@@ -1,3 +1,10 @@
+
+<style lang="scss" scoped>
+.forget{
+	padding-top: 1.95rem;
+}
+</style>
+
 <template>
   <div class="forget">
     <headerTop :title="'重置密码'">
@@ -20,9 +27,3 @@
 <script>
 export default {};
 </script>
-
-<style lang="scss" scoped>
-.forget{
-	padding-top: 1.95rem;
-}
-</style>

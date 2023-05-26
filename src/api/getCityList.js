@@ -1,10 +1,10 @@
-import request from "../config/axios";
+import { request } from "../config/request";
 
- const getCityList = async  (url, params) => {
-	let data
+const getCityList = async (url, params) => {
+  let data;
   await request({ url, params }).then((res) => {
     data = res.data;
   });
-	return data
+  return data;
 };
 export default getCityList;

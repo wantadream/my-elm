@@ -1,8 +1,113 @@
+
+<style lang="scss" scoped>
+.food {
+  .title {
+    width: 100%;
+    background: #3190e8;
+    color: #fff;
+    height: 70px;
+    display: flex;
+    line-height: 70px;
+    position: relative;
+    .back {
+      font-size: 30px;
+    }
+    .title-head {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      margin-right: 150px;
+    }
+  }
+  .showlist-enter-active,
+  .showlist-leave-active {
+    transition: all 0.3s;
+    transform: translateY(0);
+  }
+  .showlist-enter,
+  .showlist-leave-active {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  .sort-container {
+    width: 100%;
+    position: fixed;
+    top: 1.95rem;
+    z-index: 3;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.025rem solid #e4e4e4;
+    .sort-item {
+      flex: 1;
+      text-align: center;
+
+      font-size: 0.55rem;
+      padding: 0.3rem 0;
+      border-right: 0.025rem solid #e4e4e4;
+      .sort-item-container {
+        font-size: 0.55rem;
+      }
+      .category_container {
+        min-height: 100px;
+        border-top: 0.025rem solid #e4e4e4;
+        z-index: 2;
+        display: flex;
+        position: fixed;
+        top: 3.1rem;
+        left: 0;
+        width: 100vw;
+        background: #fff;
+        .sort {
+          width: 100%;
+          li {
+            padding: 10px 0;
+            line-height: 1rem;
+            font-size: 0.55rem;
+            width: 100%;
+            color: #666;
+            text-align: left;
+            text-indent: 0.25rem;
+            border-bottom: 0.025rem solid #e4e4e4;
+          }
+        }
+        .category_left {
+          width: 50%;
+          background: #f1f1f1;
+          span {
+            font-size: 0.5rem;
+            color: #666;
+            line-height: 1.8rem;
+          }
+          .category_left_div {
+            height: 46px;
+            line-height: 46px;
+          }
+        }
+        .category_right {
+          height: 16rem;
+          overflow-y: auto;
+          width: 50%;
+          .category_right_div {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #f4f4f4;
+          }
+        }
+      }
+    }
+  }
+  .wode {
+    padding-top: 3.1rem;
+  }
+}
+</style>
+
 <template>
   <div class="food">
     <header-top :title="headTitle">
       <template v-slot:left>
-        <p class=".left"><</p>
+        <p class=".left" @click="back"><</p>
       </template>
     </header-top>
     <!-- 分类 -->
@@ -21,7 +126,9 @@
                 @click="selectCategoryName(item.id, index)"
                 class="category_left_div"
               >
-                {{ item.name }}
+                <span>{{ item.name }}</span>
+                <span>{{ item.count }}</span>
+               
               </div>
             </div>
             <div class="category_right">
@@ -63,15 +170,16 @@
         </transition>
       </div>
     </div>
+
     <ShopList :shopList="shopList" class="wode"></ShopList>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import request from "../../service/getData";
+import {request} from "../../service/axios";
 export default {
-  props: [],
+  props: ["query", "title"],
   data() {
     return {
       geohash: "",
@@ -130,106 +238,10 @@ export default {
       this.headTitle = name;
       this.foodTitle = name;
       this.sortBy = "";
+    },
+    back() {
+      this.$router.go(-1);
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.food {
-  .title {
-    width: 100%;
-    background: #3190e8;
-    color: #fff;
-    height: 70px;
-    display: flex;
-    line-height: 70px;
-    position: relative;
-    .back {
-      font-size: 30px;
-    }
-    .title-head {
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%, 0);
-      margin-right: 150px;
-    }
-  }
-  .showlist-enter-active,
-  .showlist-leave-active {
-    transition: all 0.3s;
-    transform: translateY(0);
-  }
-  .showlist-enter,
-  .showlist-leave-active {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  .sort-container {
-    width: 100%;
-    position: fixed;
-    top: 1.95rem;
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 0.025rem solid #e4e4e4;
-    .sort-item {
-      flex: 1;
-      text-align: center;
-      z-index: 3;
-      font-size: 0.55rem;
-      padding: 0.3rem 0;
-      border-right: 0.025rem solid #e4e4e4;
-			.sort-item-container{
-				font-size: .55rem;
-
-			}
-      .category_container {
-        min-height: 100px;
-        border-top: 0.025rem solid #e4e4e4;
-        z-index: 2;
-        display: flex;
-        position: fixed;
-        top: 3.1rem;
-        left: 0;
-        width: 100vw;
-        background: #fff;
-        .sort {
-					width: 100%;
-          li {
-            padding: 10px 0;
-						line-height: 1rem;
-            font-size: 0.55rem;
-						width: 100%;
-            color: #666;
-						text-align: left;
-						text-indent: .25rem;
-						border-bottom: 0.025rem solid #e4e4e4;
-          }
-        }
-        .category_left {
-          width: 50%;
-          background: #f1f1f1;
-          .category_left_div {
-            height: 46px;
-            line-height: 46px;
-          }
-        }
-        .category_right {
-          height: 16rem;
-          overflow-y: auto;
-          width: 50%;
-          .category_right_div {
-            height: 40px;
-            line-height: 40px;
-            border-bottom: 1px solid #f4f4f4;
-          }
-        }
-      }
-    }
-  }
-  .wode {
-    padding-top: 3.1rem;
-  }
-}
-</style>

@@ -1,5 +1,5 @@
 html {
-	font-size: 25.875px !important;
+	font-size: 25.875px;
 }
 
 body {
@@ -12,4 +12,8 @@ body {
 }
 div{
 	font-size: 12px;
+}
+* {
+	margin: 0;
+	padding: 0;
 }

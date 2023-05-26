@@ -1,22 +1,44 @@
-import axiosInstance from "../config/axios";
+import { request } from "@/config/request";
 
-function request(url, method = "get", data = {}) {
-  const options = {
-    url,
-    method,
-  };
-  if (method.toLowerCase() === "get") {
-    options.params = data;
-  } else {
-    options.data = data;
-  }
-  return axiosInstance(options)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      throw err;
-    });
-}
+/**
+ * 获取首页定位地址
+ */
 
-export default request
+const cityGuess = () => request("/v1/cities", "get", { type: "guess" });
+
+/**
+ *
+ * @returns 获取首页热门城市
+ */
+const hotCity = () => request("/v1/cities", "get", { type: "hot" });
+
+/**
+ * 获取msite页面地址信息
+ */
+
+const msiteAddress = (geohash) => request("/v2/pois/" + geohash);
+
+/**
+ *
+ *商家属性活动列表
+ */
+
+const shopDetails = (shopid, latitude, longitude) =>
+  request("/shopping/restaurant/" + shopid, {
+    latitude,
+    longitude:
+      longitude +
+      "&extras[]=activities&extras[]=album&extras[]=license&extras[]=identification&extras[]=statistics",
+  });
+
+/***
+ *
+ * 获取食品列表
+ */
+
+const foodMenu = (restaurant_id) =>
+  request("/shopping/v2/menu", {
+    restaurant_id,
+  });
+
+export { cityGuess, shopDetails, msiteAddress, hotCity, foodMenu };
