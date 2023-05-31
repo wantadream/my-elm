@@ -1,4 +1,7 @@
 <style lang="scss" scoped>
+.active {
+  background: #fff;
+}
 .shop_container {
   display: flex;
   flex-direction: column;
@@ -8,7 +11,7 @@
   height: 100%;
   // color: #57A9FF;
   overflow-y: auto;
-	background: #fff;
+  background: #fff;
 }
 
 .shop_nav {
@@ -238,7 +241,6 @@
   background-color: #fff;
   padding: 0.9rem 0 0.6rem;
   border-bottom: 1px solid #ebebeb;
-	
 }
 .change_show_type div .activity_show {
   color: #3190e8;
@@ -273,7 +275,7 @@
 .menu_left {
   width: 3.8rem;
   // background: #6eabe7;
-	background: #f5f5f5;
+  background: #f5f5f5;
 }
 .menu_left_li {
   padding: 0.7rem 0.3rem;
@@ -594,14 +596,20 @@
         <section class="menu_container">
           <section class="menu_left">
             <ul>
-              <li class="menu_left_li" v-for="item in menuList" :key="item.id">
+              <li
+                class="menu_left_li"
+                v-for="(item, index) in menuList"
+                :class="{ active: currentIndex == index }"
+                @click="e => menuLeftClick(index, e)"
+                :key="item.id"
+              >
                 <span>{{ item.name }}</span>
               </li>
             </ul>
           </section>
-          <section class="menu_right" ref="menu_right">
+          <section class="menu_right" @scroll="menuRightScroll" ref="menu_right">
             <ul>
-              <li v-for="item in menuList" :key="item.id">
+              <li v-for="item in menuList" :key="item.id" ref="food">
                 <header class="menu_detail_header">
                   <section class="menu_detail_header_left">
                     <strong class="menu_item_title ">{{ item.name }} </strong>
@@ -665,14 +673,13 @@
                           class="add_icon"
                           @click="
                             addToCart(
-															
                               item.category_id,
                               item.item_id,
                               item.food_id,
                               item.name,
                               item.price,
                               item.specs,
-															item,
+                              item
                             )
                           "
                         >
@@ -723,36 +730,51 @@ export default {
       geohash: "", //位置信息,经纬度
       latitude: "",
       longitude: "",
-      shopId: '', //商铺id
+      shopId: "", //商铺id
       changeShowType: "food",
       menuList: [], //食品列表
       shopDetailData: {}, //商铺详情
-      imgBaseUrl
+      imgBaseUrl,
+      currentIndex: 0
     };
   },
   mounted() {
     this.$refs.shop_con.addEventListener("scroll", this.shopConScroll);
-		this.$refs.menu_right.addEventListener('scroll',e=>{
-			
-			const scrollTop=this.$refs.shop_con.scrollTop
-			const clientHeight=this.$refs.shop_con.clientHeight
-			const scrollHeight=this.$refs.shop_con.scrollHeight
-			
-			if(scrollHeight-clientHeight>scrollTop){
-				
-				e.target.style.overflowY='hidden'
-				
-			}else if((scrollTop+clientHeight)>=scrollHeight){
-				
-				e.target.style.overflowY='auto'
+    // this.$refs.menu_right.addEventListener("scroll", e => {
+    //   const scrollTop = this.$refs.shop_con.scrollTop;
+    //   const clientHeight = this.$refs.shop_con.clientHeight;
+    //   const scrollHeight = this.$refs.shop_con.scrollHeight;
 
-			}
-		})
+    //   if (scrollHeight - clientHeight > scrollTop) {
+    //     e.target.style.overflowY = "hidden";
+    //   } else if (scrollTop + clientHeight >= scrollHeight) {
+    //     e.target.style.overflowY = "auto";
+    //   }
+    // });
+    this.$refs.menu_right.onmousewheel = e => {
+      // console.log(e.wheelDelta);
+
+      const scrollTop = this.$refs.shop_con.scrollTop;
+      const clientHeight = this.$refs.shop_con.clientHeight;
+      const scrollHeight = this.$refs.shop_con.scrollHeight;
+      if (e.wheelDelta > 0) {
+        if (scrollHeight - clientHeight > scrollTop) {
+          e.target.style.overflowY = "auto";
+        }
+      } else {
+        if (scrollHeight - clientHeight > scrollTop) {
+          this.$refs.menu_right.style.overflowY = "hidden";
+        } else if (scrollTop + clientHeight >= scrollHeight) {
+          this.$refs.menu_right.overflowY = "auto";
+        }
+      }
+    };
   },
   activated() {
     this.geohash = this.$route.query.geohash;
     this.shopId = this.$route.query.id;
     this.initData();
+		this.currentIndex=0
   },
   computed: {},
   methods: {
@@ -772,10 +794,10 @@ export default {
     },
     clickHandle() {},
     shopConScroll() {
-			const scrollTop=this.$refs.shop_con.scrollTop
-			const clientHeight=this.$refs.shop_con.clientHeight
-			const scrollHeight=this.$refs.shop_con.scrollHeight
-			
+      const scrollTop = this.$refs.shop_con.scrollTop;
+      const clientHeight = this.$refs.shop_con.clientHeight;
+      const scrollHeight = this.$refs.shop_con.scrollHeight;
+
       const shopNav = this.$refs.shop_nav;
       const shopNavModel = this.$refs.shop_nav_model;
       const count = this.$refs.shop_con.scrollTop / 140;
@@ -788,18 +810,16 @@ export default {
       }
       shopNav.style.background = `rgba(251, 251, 251, ${count})`;
       shopNavModel.style.opacity = 1 - count;
-			if(scrollHeight-clientHeight<scrollTop+10){
-				
-				this.$refs.menu_right.style.overflowY='scroll'
-				
-			}
+      if (scrollHeight - clientHeight < scrollTop + 10) {
+        this.$refs.menu_right.style.overflowY = "scroll";
+      }
       // console.log(this.$refs.shop_con.scrollTop);
     },
     onSubmit() {
       Toast("点击按钮");
     },
-    addToCart(category_id, item_id, food_id, name, price, specs,item) {
-			console.log(item);
+    addToCart(category_id, item_id, food_id, name, price, specs, item) {
+      console.log(item);
       this.ADD_CART({
         shopid: this.shopId,
         category_id,
@@ -810,7 +830,24 @@ export default {
         specs
       });
     },
-
+    menuLeftClick(index, e) {
+      this.currentIndex = index;
+      const typeItemDom = this.$refs.food[index];
+      this.$refs.menu_right.scrollTo(0, typeItemDom.offsetTop);
+    },
+    menuRightScroll() {
+      
+      this.menuList.forEach((item, index) => {
+        const shopItemDom = this.$refs.food[index];
+        const offsetTop = shopItemDom.offsetTop;
+        const scrollTop = this.$refs.menu_right.scrollTop;
+        
+        if (scrollTop >= offsetTop) {
+          
+          this.currentIndex = index;
+        }
+      });
+    }
   }
 };
 </script>
