@@ -10,7 +10,7 @@ html {
 
 <template>
   <div id="app">
-    <keep-alive>
+    <keep-alive exclude="shop">
       <router-view />
     </keep-alive>
   </div>

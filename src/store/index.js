@@ -1,15 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 import mutations from "./mutation";
 
 Vue.use(Vuex);
-const RECORD_ADDRESS = "RECORD_ADDRESS";
+
+const state = {
+  latitude: "",
+  longitude: "",
+  geohash: "",
+  cartList: {},
+};
+
 export default new Vuex.Store({
-  state: {
-    latitude: "",
-    longitude: "",
-    geohash: "",
-  },
+  state,
   getters: {},
   mutations,
   actions: {},

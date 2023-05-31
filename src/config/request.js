@@ -19,7 +19,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res) => {
-    return res.data;
+		if (res.data) {
+      return res.data;
+    } else {
+      return [];
+    }
+    
   },
   (err) => {
     return Promise.reject(err);

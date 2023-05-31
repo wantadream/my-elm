@@ -1,14 +1,17 @@
 
 <style lang="scss" scoped>
 .shop-list {
-  background: #fff;
+  background: #f5f5f5;
   // border-top: 0.025rem solid #e4e4e4;
 
   .shopping {
     display: flex;
-    padding: 10px;
+    padding: 14px;
     border-bottom: 0.025rem solid #f1f1f1;
-		color: #333;
+    color: #333;
+    background: #fff;
+    border-radius: 11px;
+    margin: 10px 10px;
     .img {
       margin-right: 10px;
       img {

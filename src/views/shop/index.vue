@@ -7,7 +7,124 @@
   left: 0;
   height: 100%;
   // color: #57A9FF;
+  overflow-y: auto;
+	background: #fff;
 }
+
+.shop_nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: #fbfbfb;
+  background: rgba(251, 251, 251, 0);
+}
+.shop_nav_model {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.74),
+    rgba(0, 0, 0, 0)
+  );
+}
+.nav_bar {
+  height: 44px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 2.875rem;
+  box-sizing: border-box;
+  transition: opacity 0.2s;
+}
+.header_back {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 4.625rem;
+  height: 1.75rem;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -0.875rem;
+  z-index: 999;
+  box-sizing: border-box;
+}
+.header_back_btn {
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.5rem;
+  background-image: url(https://gw.alicdn.com/tfs/TB1pU5gyhD1gK0jSZFKXXcJrVXa-24-24.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  box-sizing: content-box;
+  background-position: center;
+}
+
+.shop_header_poster {
+  .img {
+    width: 100%;
+    height: 185px;
+
+    background: #e09999;
+
+    z-index: 9;
+    // filter: blur(10px);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.shop_header_info {
+  position: relative;
+  margin-top: -6rem;
+  z-index: 3;
+  padding-top: 0.5rem;
+  margin-bottom: 0.66rem;
+  box-sizing: border-box;
+}
+.shop_header_info_card {
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0.1875rem 0.9375rem 0 rgba(0, 0, 0, 0.06);
+  border-radius: 0.5rem;
+  z-index: 2;
+  width: 387px;
+  height: 168px;
+  padding: 0.625rem 0.75rem 0.6875rem 0.75rem;
+  box-sizing: border-box;
+}
+.card_info {
+  display: flex;
+  flex-direction: row;
+}
+.card_info_left {
+  padding-top: 0.25rem;
+  width: 308px;
+  box-sizing: border-box;
+  h3 {
+    font-size: 1rem;
+  }
+}
+.card_info_right {
+  position: relative;
+  width: 66px;
+  height: 53px;
+  img {
+    width: 100%;
+  }
+}
+
 /* 商铺详情 */
 
 /* 头 */
@@ -106,11 +223,22 @@
   right: 0.3rem;
 }
 /* 切换商品/评价 */
+.zan {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  // padding-top: 172px;
+  // overflow: hidden;
+  position: sticky;
+  top: 185px;
+  height: calc(100% - 44px);
+}
 .change_show_type {
   display: flex;
   background-color: #fff;
   padding: 0.9rem 0 0.6rem;
   border-bottom: 1px solid #ebebeb;
+	
 }
 .change_show_type div .activity_show {
   color: #3190e8;
@@ -145,6 +273,7 @@
 .menu_left {
   width: 3.8rem;
   // background: #6eabe7;
+	background: #f5f5f5;
 }
 .menu_left_li {
   padding: 0.7rem 0.3rem;
@@ -311,11 +440,11 @@
   padding-top: 0.01rem;
 }
 /* 内容区 评价 */
-.rating_container {
-}
+// .rating_container {
+// }
 /* 购物车 */
 .buy_cart_container {
-  position: absolute;
+  position: fixed;
   background-color: #3d3d3f;
   bottom: 0;
   left: 0;
@@ -342,23 +471,23 @@
   color: #fff;
   font-weight: bolder;
 }
-.cart_num {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 3.5rem;
-}
-.cart_num div {
-  color: #fff;
-}
-.cart_num div:nth-of-type(1) {
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-bottom: 0.1rem;
-}
-.cart_num div:nth-of-type(2) {
-  font-size: 0.4rem;
-}
+// .cart_num {
+//   position: absolute;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   left: 3.5rem;
+// }
+// .cart_num div {
+//   color: #fff;
+// }
+// .cart_num div:nth-of-type(1) {
+//   font-size: 0.8rem;
+//   font-weight: bold;
+//   margin-bottom: 0.1rem;
+// }
+// .cart_num div:nth-of-type(2) {
+//   font-size: 0.4rem;
+// }
 .gotopay {
   position: absolute;
   right: 0;
@@ -379,8 +508,8 @@
 </style>
 
 <template>
-  <div class="shop_container">
-    <header class="shop_detail_header">
+  <div class="shop_container" ref="shop_con" @click="clickHandle">
+    <!-- <header class="shop_detail_header">
       <router-link to="/shop">
         <div class="header_cover_img">
           <div class="img" >
@@ -393,7 +522,7 @@
               <img :src="imgBaseUrl + shopDetailData.image_path" alt="" />
             </section>
             <section class="description_right">
-              <h4 class="description_title ellipsis">大碗盒饭nanchi11</h4>
+              <h4 class="description_title ellipsis">{{shopDetailData.name}}</h4>
               <p class="description_text">商家配送／分钟送达／配送费¥5</p>
               <p class="description_promotion ellipsis">
                 公告：欢迎光临，用餐高峰请提前下单，谢谢
@@ -411,169 +540,174 @@
           </footer>
         </div>
       </router-link>
+    </header> -->
+    <header class="shop_nav" ref="shop_nav">
+      <div class="shop_nav_model" ref="shop_nav_model"></div>
+      <div class="nav_bar">
+        <div class="header_back">
+          <div class="header_back_btn" ref="header_back"></div>
+        </div>
+      </div>
     </header>
-    <section class="change_show_type">
-      <div>
-        <span
-          :class="{ activity_show: changeShowType == 'food' }"
-          @click="changeShowType = 'food'"
-          >商品</span
-        >
+    <div class="shop_header_poster">
+      <div class="img">
+        <img :src="imgBaseUrl + shopDetailData.image_path" alt="" />
       </div>
-      <div>
-        <span
-          :class="{ activity_show: changeShowType == 'rating' }"
-          @click="changeShowType = 'rating'"
-          >评价</span
-        >
+    </div>
+    <div class="shop_header_info">
+      <div class="shop_header_info_card">
+        <div class="card_info">
+          <div class="card_info_left">
+            <h3 class="ellipsis">{{ shopDetailData.name }}</h3>
+            <p>商家配送／分钟送达／配送费¥5</p>
+          </div>
+          <div class="card_info_right">
+            <img :src="imgBaseUrl + shopDetailData.image_path" alt="" />
+          </div>
+        </div>
+        <div class="card_coupon">
+          优惠券
+        </div>
+        <div class="card_discount">
+          红包优惠
+        </div>
       </div>
-    </section>
-    <section class="food_container" v-show="changeShowType === 'food'">
-      <section class="menu_container">
-        <section class="menu_left">
-          <ul>
-            <li class="menu_left_li" v-for="item in menuList" :key="item.id">
-              <span>{{ item.name }}</span>
-            </li>
-            <!-- <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li"><span>无内鬼</span></li>
-            <li class="menu_left_li">无极剑圣</li>
-            <li class="menu_left_li">厄斐琉斯</li>
-            <li class="menu_left_li">暮光星灵</li>
-            <li class="menu_left_li">渴血战斧</li>
-            <li class="menu_left_li">狂风之力</li>
-            <li class="menu_left_li">无尽之刃</li>
-            <li class="menu_left_li">糖果女巫</li>
-            <li class="menu_left_li">皮城女警</li> -->
-          </ul>
-        </section>
-        <section class="menu_right">
-          <ul>
-            <li v-for="item in menuList" :key="item.id">
-              <header class="menu_detail_header">
-                <section class="menu_detail_header_left">
-                  <strong class="menu_item_title">{{ item.name }} </strong>
-                  <span class="menu_item_description">
-                    {{ item.description }}</span
-                  >
-                </section>
-                <span class="menu_detail_header_right">...</span>
-              </header>
-              <section
-                class="menu_detail_list"
-                v-for="item_d in item.foods"
-                :key="item_d.item_id"
-              >
-                <div class="menu_detail_link">
-                  <section class="menu_food_img">
-                    <div class="img" >
-                      <!-- <img :src="imgBaseUrl + item.d&&item_d.image_path" alt="" /> -->
-                    </div>
+    </div>
+    <div class="zan">
+      <section class="change_show_type">
+        <div>
+          <span
+            :class="{ activity_show: changeShowType == 'food' }"
+            @click="changeShowType = 'food'"
+            >商品</span
+          >
+        </div>
+        <div>
+          <span
+            :class="{ activity_show: changeShowType == 'rating' }"
+            @click="changeShowType = 'rating'"
+            >评价</span
+          >
+        </div>
+      </section>
+      <section class="food_container" v-show="changeShowType === 'food'">
+        <section class="menu_container">
+          <section class="menu_left">
+            <ul>
+              <li class="menu_left_li" v-for="item in menuList" :key="item.id">
+                <span>{{ item.name }}</span>
+              </li>
+            </ul>
+          </section>
+          <section class="menu_right" ref="menu_right">
+            <ul>
+              <li v-for="item in menuList" :key="item.id">
+                <header class="menu_detail_header">
+                  <section class="menu_detail_header_left">
+                    <strong class="menu_item_title ">{{ item.name }} </strong>
+                    <span class="menu_item_description">
+                      {{ item.description }}</span
+                    >
                   </section>
-                  <section class="menu_food_description">
-                    <h3 class="food_description_head">
-                      <strong class="description_foodname ellipsis">{{
-                        item_d.name
-                      }}</strong>
-                      <ul class="attributes_ul" v-if="item_d.attributes.length">
-                        <li class="attribute_new" v-for="(attr,index) in item_d.attributes" :key="index">
-                          <p>{{attr.icon_name=='新'?'新品':attr.icon_name}}</p>
-                        </li>
-                      </ul>
-                    </h3>
-                    <p class="food_description_content">
-                      {{ item_d.description }}
-                    </p>
-                    <p class="food_description_sale_rating">
-                      <span>月售{{ item_d.month_sales }}份 </span>
-                      <span> 好评率{{ item_d.satisfy_rate }}%</span>
-                    </p>
-                    <p class="food_activity"c v-if="item_d.activity">
-                      <span>{{ item_d.activity.image_text }}</span>
-                    </p>
-                  </section>
-                </div>
-                <footer class="menu_detail_footer">
-                  <section class="food_price">
-                    <span>$</span>
-                    <span>{{ item_d.specfoods[0].price }}</span>
-                  </section>
-                  <section class="cart_module">
-                    <section class="cart_button">
-                      <div class="add_icon">+</div>
+                  <span class="menu_detail_header_right">...</span>
+                </header>
+                <section
+                  class="menu_detail_list"
+                  v-for="item_d in item.foods"
+                  :key="item_d.item_id"
+                >
+                  <div class="menu_detail_link">
+                    <section class="menu_food_img">
+                      <div class="img">
+                        <img :src="imgBaseUrl + item_d.image_path" alt="" />
+                      </div>
                     </section>
-                  </section>
-                </footer>
-              </section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-            </li>
-            <li>
-              <header class="menu_detail_header">sdf</header>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-            </li>
-            <li>
-              <header class="menu_detail_header">sdf</header>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-              <section class="menu_detail_list">sdf</section>
-            </li>
-          </ul>
+                    <section class="menu_food_description">
+                      <h3 class="food_description_head">
+                        <strong class="description_foodname ellipsis">{{
+                          item_d.name
+                        }}</strong>
+                        <ul
+                          class="attributes_ul"
+                          v-if="item_d.attributes.length"
+                        >
+                          <li
+                            class="attribute_new"
+                            v-for="(attr, index) in item_d.attributes"
+                            :key="index"
+                          >
+                            <p>{{ attr?.icon_name }}</p>
+                          </li>
+                        </ul>
+                      </h3>
+                      <p class="food_description_content">
+                        {{ item_d.description }}
+                      </p>
+                      <p class="food_description_sale_rating">
+                        <span>月售{{ item_d.month_sales }}份 </span>
+                        <span> 好评率{{ item_d.satisfy_rate }}%</span>
+                      </p>
+                      <p class="food_activity" c v-if="item_d.activity">
+                        <span>{{ item_d.activity.image_text }}</span>
+                      </p>
+                    </section>
+                  </div>
+                  <footer class="menu_detail_footer">
+                    <section class="food_price">
+                      <span>$</span>
+                      <span>{{ item_d.specfoods[0].price }}</span>
+                    </section>
+                    <section class="cart_module">
+                      <section class="choose_icon_container">
+                        <div class="specs_reduce_icon">-</div>
+                        <span class="cart_num">4</span>
+                        <div
+                          class="add_icon"
+                          @click="
+                            addToCart(
+															
+                              item.category_id,
+                              item.item_id,
+                              item.food_id,
+                              item.name,
+                              item.price,
+                              item.specs,
+															item,
+                            )
+                          "
+                        >
+                          +
+                        </div>
+                      </section>
+                      <!-- <section class="cart_button">
+                        <div class="add_icon">+</div>
+                      </section> -->
+                    </section>
+                  </footer>
+                </section>
+              </li>
+            </ul>
+          </section>
         </section>
       </section>
-      <section class="buy_cart_container">
-        <section class="cart_icon_num">
-          <div class="cart_icon_container">
-            <div class="cart_icon">che</div>
-          </div>
-          <div class="cart_num">
-            <div>$ 0.00</div>
-            <div>配送费$5</div>
-          </div>
-        </section>
-        <section class="gotopay gotopay_activity">
-          <span class="gotopay_button_style">还差¥20起送</span>
-        </section>
+      <section class="rating_container" v-show="changeShowType === 'rating'">
+        评价
       </section>
-    </section>
-    <section class="rating_container" v-show="changeShowType === 'rating'">
-      评价
+    </div>
+    <section class="buy_cart_container">
+      <!-- <section class="cart_icon_num">
+        <div class="cart_icon_container">
+          <div class="cart_icon">che</div>
+        </div>
+        <div class="cart_num">
+          <div>$ 0.00</div>
+          <div>配送费$5</div>
+        </div>
+      </section>
+      <section class="gotopay gotopay_activity">
+        <span class="gotopay_button_style">还差¥20起送</span>
+      </section> -->
+      <van-submit-bar :price="3050" button-text="去结算" @submit="onSubmit" />
     </section>
   </div>
 </template>
@@ -582,28 +716,47 @@
 import { mapState, mapMutations } from "vuex";
 import { msiteAddress, foodMenu, shopDetails } from "@/service/getData";
 import { imgBaseUrl } from "@/config/env";
+import { Toast } from "vant";
 export default {
   data() {
     return {
       geohash: "", //位置信息,经纬度
       latitude: "",
       longitude: "",
-      shopId: null, //商铺id
+      shopId: '', //商铺id
       changeShowType: "food",
       menuList: [], //食品列表
       shopDetailData: {}, //商铺详情
       imgBaseUrl
     };
   },
-  created() {
+  mounted() {
+    this.$refs.shop_con.addEventListener("scroll", this.shopConScroll);
+		this.$refs.menu_right.addEventListener('scroll',e=>{
+			
+			const scrollTop=this.$refs.shop_con.scrollTop
+			const clientHeight=this.$refs.shop_con.clientHeight
+			const scrollHeight=this.$refs.shop_con.scrollHeight
+			
+			if(scrollHeight-clientHeight>scrollTop){
+				
+				e.target.style.overflowY='hidden'
+				
+			}else if((scrollTop+clientHeight)>=scrollHeight){
+				
+				e.target.style.overflowY='auto'
+
+			}
+		})
+  },
+  activated() {
     this.geohash = this.$route.query.geohash;
     this.shopId = this.$route.query.id;
-  },
-  mounted() {
     this.initData();
   },
+  computed: {},
   methods: {
-    ...mapMutations(["RECORD_ADDRESS"]),
+    ...mapMutations(["RECORD_ADDRESS", "ADD_CART"]),
     async initData() {
       if (!this.latitude) {
         let res = await msiteAddress(this.geohash);
@@ -614,9 +767,50 @@ export default {
         this.latitude,
         this.longitude
       );
-      this.menuList = await foodMenu(this.shopId)||[];
-      console.log(this.shopDetailData);
-    }
+      this.menuList = (await foodMenu(this.shopId)) || [];
+      // console.log(this.menuList);
+    },
+    clickHandle() {},
+    shopConScroll() {
+			const scrollTop=this.$refs.shop_con.scrollTop
+			const clientHeight=this.$refs.shop_con.clientHeight
+			const scrollHeight=this.$refs.shop_con.scrollHeight
+			
+      const shopNav = this.$refs.shop_nav;
+      const shopNavModel = this.$refs.shop_nav_model;
+      const count = this.$refs.shop_con.scrollTop / 140;
+      if (count > 0.5) {
+        this.$refs.header_back.style.backgroundImage =
+          "url(https://gw.alicdn.com/imgextra/i3/O1CN017fDD9029k8kyKZteI_!!6000000008105-55-tps-24-24.svg)";
+      } else {
+        this.$refs.header_back.style.backgroundImage =
+          "url(https://gw.alicdn.com/tfs/TB1pU5gyhD1gK0jSZFKXXcJrVXa-24-24.svg)";
+      }
+      shopNav.style.background = `rgba(251, 251, 251, ${count})`;
+      shopNavModel.style.opacity = 1 - count;
+			if(scrollHeight-clientHeight<scrollTop+10){
+				
+				this.$refs.menu_right.style.overflowY='scroll'
+				
+			}
+      // console.log(this.$refs.shop_con.scrollTop);
+    },
+    onSubmit() {
+      Toast("点击按钮");
+    },
+    addToCart(category_id, item_id, food_id, name, price, specs,item) {
+			console.log(item);
+      this.ADD_CART({
+        shopid: this.shopId,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs
+      });
+    },
+
   }
 };
 </script>
