@@ -239,14 +239,15 @@
 .change_show_type {
   display: flex;
   background-color: #fff;
-  padding: 0.9rem 0 0.6rem;
+  
   border-bottom: 1px solid #ebebeb;
 }
 .change_show_type div .activity_show {
-  color: #3190e8;
+  font-weight: bolder;
   border-color: #3190e8;
 }
 .change_show_type div {
+	padding: 0.9rem 0 0.6rem;
   flex: 1;
   text-align: center;
   // display: flex;
@@ -254,7 +255,7 @@
 .change_show_type div span {
   // flex: 1;
   font-size: 0.65rem;
-  color: #666;
+ color: #191919;
   padding: 0.2rem 0.1rem;
   border-bottom: 0.12rem solid #fff;
 }
@@ -607,7 +608,11 @@
               </li>
             </ul>
           </section>
-          <section class="menu_right" @scroll="menuRightScroll" ref="menu_right">
+          <section
+            class="menu_right"
+            @scroll="menuRightScroll"
+            ref="menu_right"
+          >
             <ul>
               <li v-for="item in menuList" :key="item.id" ref="food">
                 <header class="menu_detail_header">
@@ -669,20 +674,7 @@
                       <section class="choose_icon_container">
                         <div class="specs_reduce_icon">-</div>
                         <span class="cart_num">4</span>
-                        <div
-                          class="add_icon"
-                          @click="
-                            addToCart(
-                              item.category_id,
-                              item.item_id,
-                              item.food_id,
-                              item.name,
-                              item.price,
-                              item.specs,
-                              item
-                            )
-                          "
-                        >
+                        <div class="add_icon" @click="addToCart(item_d)">
                           +
                         </div>
                       </section>
@@ -774,7 +766,7 @@ export default {
     this.geohash = this.$route.query.geohash;
     this.shopId = this.$route.query.id;
     this.initData();
-		this.currentIndex=0
+    this.currentIndex = 0;
   },
   computed: {},
   methods: {
@@ -818,8 +810,11 @@ export default {
     onSubmit() {
       Toast("点击按钮");
     },
-    addToCart(category_id, item_id, food_id, name, price, specs, item) {
-      console.log(item);
+    addToCart({
+      category_id,
+      item_id,
+      specfoods: [{food_id, name, price, specs, packing_fee, sku_id, stock }]
+    }) {
       this.ADD_CART({
         shopid: this.shopId,
         category_id,
@@ -827,7 +822,10 @@ export default {
         food_id,
         name,
         price,
-        specs
+        specs,
+        packing_fee,
+        sku_id,
+        stock
       });
     },
     menuLeftClick(index, e) {
@@ -836,14 +834,12 @@ export default {
       this.$refs.menu_right.scrollTo(0, typeItemDom.offsetTop);
     },
     menuRightScroll() {
-      
       this.menuList.forEach((item, index) => {
         const shopItemDom = this.$refs.food[index];
         const offsetTop = shopItemDom.offsetTop;
         const scrollTop = this.$refs.menu_right.scrollTop;
-        
+
         if (scrollTop >= offsetTop) {
-          
           this.currentIndex = index;
         }
       });

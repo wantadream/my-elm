@@ -26,6 +26,7 @@ export default {
       stock,
     }
   ) {
+    
     let cart = state.cartList;
 
     let shop = (cart[shopid] = cart[shopid] || {});
@@ -47,6 +48,8 @@ export default {
     }
     state.cartList = { ...cart };
     //存入localStorage
+
     setStore("buyCart", state.cartList);
+    
   },
 };
