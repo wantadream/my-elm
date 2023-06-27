@@ -208,7 +208,7 @@
 
 <script>
 import {request} from "../../service/axios";
-import getCityList from "../../api/getCityList";
+import {cityGuess} from "@/service/getData";
 export default {
   data() {
     return {
@@ -220,9 +220,8 @@ export default {
     };
   },
   created() {
-    request("/v1/cities", "get", { type: "guess" }).then(res => {
-      this.positionCity = res;
-    });
+		this.positionCity=cityGuess();
+    
     request("/v1/cities", "get", { type: "hot" }).then(res => {
       this.hotCityList = res;
     });
@@ -238,7 +237,7 @@ export default {
           sortobj[String.fromCharCode(i)] = this.cityList[
             String.fromCharCode(i)
           ];
-        }
+        } 
       }
 
       return sortobj;

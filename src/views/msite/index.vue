@@ -40,10 +40,11 @@
   }
   .msite_nav {
     background: #fff;
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
     margin-bottom: 20px;
     border-bottom: 0.025rem solid #e4e4e4;
     .van-swipe {
+			padding-bottom: 20px;
       .van-swipe-item {
         display: flex;
         flex-wrap: wrap;
@@ -73,6 +74,7 @@
         }
       }
     }
+		
   }
 }
 .van_list {
@@ -145,7 +147,7 @@
         @load="onLoad"
         :immediate-check="false"
       >
-        <p class="nearby_business">附近商家</p>
+        <!-- <p class="nearby_business">附近商家</p> -->
         <ShopList :shopList="shopList" :geohash="geohash"></ShopList>
 
         <van-cell v-for="item in list" :key="item" :title="item" />

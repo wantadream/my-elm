@@ -1,10 +1,13 @@
 import { request } from "@/config/request";
+import { position } from "./data";
 
 /**
  * 获取首页定位地址
  */
 
-const cityGuess = () => request("/v1/cities", "get", { type: "guess" });
+// const cityGuess = () => request("/v1/cities", "get", { type: "guess" });
+const cityGuess = () => position;
+
 
 /**
  *

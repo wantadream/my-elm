@@ -5,6 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { Icon } from "vant";
+import { cityGuess } from "./service/getData";
 
 Vue.config.productionTip = false;
 Vue.use(Icon);

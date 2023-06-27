@@ -118,6 +118,11 @@
   h3 {
     font-size: 1rem;
   }
+  p {
+    margin-top: 0.33rem;
+    font-size: 0.5rem;
+    color: #333;
+  }
 }
 .card_info_right {
   position: relative;
@@ -128,6 +133,19 @@
   }
 }
 
+.card_announcement{
+	p{
+		font-size: .5rem;
+		color: #999;
+		margin-top: .25rem;
+	}
+}
+.card_coupon{
+	height: 1.2rem;
+	line-height: 1.2rem;
+	margin-top: .33rem;
+	padding-bottom: .35rem;
+}
 /* 商铺详情 */
 
 /* 头 */
@@ -239,7 +257,7 @@
 .change_show_type {
   display: flex;
   background-color: #fff;
-  
+
   border-bottom: 1px solid #ebebeb;
 }
 .change_show_type div .activity_show {
@@ -247,7 +265,7 @@
   border-color: #3190e8;
 }
 .change_show_type div {
-	padding: 0.9rem 0 0.6rem;
+  padding: 0.9rem 0 0.6rem;
   flex: 1;
   text-align: center;
   // display: flex;
@@ -255,7 +273,7 @@
 .change_show_type div span {
   // flex: 1;
   font-size: 0.65rem;
- color: #191919;
+  color: #191919;
   padding: 0.2rem 0.1rem;
   border-bottom: 0.12rem solid #fff;
 }
@@ -407,7 +425,7 @@
 }
 .menu_detail_footer {
   margin-left: 2.4rem;
-  font-size: 0;
+  // font-size: 0;
   margin-top: 0.3rem;
   display: flex;
   justify-content: space-between;
@@ -429,6 +447,9 @@
   display: flex;
   align-items: center;
 }
+.choose_icon_container{
+	display: flex;
+}
 .add_icon {
   position: relative;
   z-index: 9;
@@ -438,9 +459,28 @@
   border-radius: 50%;
   color: #fff;
   font-size: 1rem;
-  line-height: 0.9rem;
+  // line-height: 0.9rem;
   text-align: center;
-  padding-top: 0.01rem;
+  // padding-top: 0.01rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.specs_reduce_icon{
+	width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  color: #3190e8;
+  font-size: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #3190e8;
+}
+.cart_num{
+	font-size: .81rem;
+	min-width: 1rem;
+	text-align: center;
 }
 /* 内容区 评价 */
 // .rating_container {
@@ -508,6 +548,20 @@
   color: #fff;
   font-weight: bold;
 }
+
+.popup{
+	
+	.buy_cart_header{
+		background: #eceff1;
+		padding: .7rem .7rem .5rem .7rem;
+		display: flex;
+		justify-content: space-between;
+		font-size: .7rem;
+	}
+	.buy_cart_con{
+		padding: .7rem .5rem;
+	}
+}
 </style>
 
 <template>
@@ -567,6 +621,14 @@
           <div class="card_info_right">
             <img :src="imgBaseUrl + shopDetailData.image_path" alt="" />
           </div>
+        </div>
+        <div class="card_announcement">
+          <p class="ellipsis">
+            公告： 【串】❤️售后客服：180-1923-7279❤️少餐漏餐等问题及时联系
+            【意】 好烧烤，自然造。正规渠道，真材实料，不用假牛羊肉骗人
+            【十】小店实付0元以上开票，下单备注抬头税号邮箱 【足】
+            全国火热招商：400-9900-961
+          </p>
         </div>
         <div class="card_coupon">
           优惠券
@@ -671,13 +733,14 @@
                       <span>{{ item_d.specfoods[0].price }}</span>
                     </section>
                     <section class="cart_module">
-                      <section class="choose_icon_container">
-                        <div class="specs_reduce_icon">-</div>
+                      <!-- <section class="choose_icon_container">
+                        <div class="specs_reduce_icon " >-</div>
                         <span class="cart_num">4</span>
                         <div class="add_icon" @click="addToCart(item_d)">
                           +
                         </div>
-                      </section>
+                      </section> -->
+											<buyCart :foods=item_d :shopid=shopId></buyCart>
                       <!-- <section class="cart_button">
                         <div class="add_icon">+</div>
                       </section> -->
@@ -690,10 +753,16 @@
         </section>
       </section>
       <section class="rating_container" v-show="changeShowType === 'rating'">
-        评价
+        <div class="rating_header"></div>
+				<ul class="tag_list">
+					<li></li>
+				</ul>
+				<ul class="rating_list">
+
+				</ul>
       </section>
     </div>
-    <section class="buy_cart_container">
+    <section class="buy_cart_container" @click="showCart">
       <!-- <section class="cart_icon_num">
         <div class="cart_icon_container">
           <div class="cart_icon">che</div>
@@ -708,6 +777,18 @@
       </section> -->
       <van-submit-bar :price="3050" button-text="去结算" @submit="onSubmit" />
     </section>
+    <van-popup v-model="show" round position="bottom"  >
+
+			<div class="popup">
+				<div class="buy_cart_header">
+					<p class="header_title">购物车</p>
+					<p class="header_clear">清空</p>
+				</div>
+				<div class="buy_cart_con">
+					bala
+				</div>
+			</div>
+		</van-popup>
   </div>
 </template>
 
@@ -727,7 +808,9 @@ export default {
       menuList: [], //食品列表
       shopDetailData: {}, //商铺详情
       imgBaseUrl,
-      currentIndex: 0
+      currentIndex: 0,
+      // style: { height: "30%" },
+      show: false
     };
   },
   mounted() {
@@ -813,7 +896,7 @@ export default {
     addToCart({
       category_id,
       item_id,
-      specfoods: [{food_id, name, price, specs, packing_fee, sku_id, stock }]
+      specfoods: [{ food_id, name, price, specs, packing_fee, sku_id, stock }]
     }) {
       this.ADD_CART({
         shopid: this.shopId,
@@ -843,6 +926,9 @@ export default {
           this.currentIndex = index;
         }
       });
+    },
+    showCart() {
+      this.show = true;
     }
   }
 };
